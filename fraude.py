@@ -265,7 +265,7 @@ with tab3:
         for col, val, label in zip([c1, c2, c3, c4],
                                 [f"{acc:.3f}", f"{prec:.3f}", f"{rec:.3f}", f"{f1:.3f}"],
                                 ["Acurácia", "Precisão", "Recall", "F1-Score"]):
-            col.markdown(f'<div class="metric-card"><h2>{val}</h2><p>{label}</p></div>', unsafe_allow_html=True)
+            col.markdown(f'<div class="metric-card"><h3>{val}</h3><p>{label}</p></div>', unsafe_allow_html=True)
 
         st.markdown("<br>", unsafe_allow_html=True)
         cm = confusion_matrix(y_test, y_pred)
@@ -342,4 +342,5 @@ with tab3:
         with c2:
             label2 = "🚨 FRAUDE" if pred_nb == 1 else "✅ LEGÍTIMA"
             bg2 = "#e74c3c" if pred_nb == 1 else "#27ae60"
+
             st.markdown(f'<div class="metric-card" style="background:{bg2}"><h2>{label2}</h2><h4>Naive Bayes (Probabilidade: {prob_nb:.1%})</h4></div>', unsafe_allow_html=True)
