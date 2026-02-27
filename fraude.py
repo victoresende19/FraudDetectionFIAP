@@ -418,7 +418,7 @@ with tab4:
             <div style="font-size:1.6rem; margin-bottom:8px">✅</div>
             <div style="color:#7eb8e8; font-weight:700; font-size:1rem; margin-bottom:12px; text-transform:uppercase; letter-spacing:.05em">O modelo resolve o gap?</div>
             <div style="color:#dce6f0; font-size:0.9rem; line-height:1.7">
-                Parcialmente sim. Com F1-Score acima de <strong style="color:#7eb8e8">0.80</strong> na Regressão Logística, 
+                Parcialmente sim. Com F1-Score de <strong style="color:#7eb8e8">71%</strong> na Regressão Logística e de <strong style="color:#7eb8e8">81%</strong> no Naive-Bayes, 
                 os modelos detectam padrões sem depender de regras fixas. O gap de rigidez é endereçado, 
                 mas a resolução completa exige retreinamento contínuo com dados reais e monitoramento de drift, 
                 dado que fraudes evoluem rapidamente.
@@ -463,7 +463,7 @@ with tab4:
         <div style="color:#dce6f0; font-size:0.9rem; line-height:1.8">
             - Redução de perdas financeiras com fraudes.<br>
             - Automação de detecção.<br>
-            - Economia de recursos humanos, com foco no CAPEx e não no OPEx*.<br>
+            - Economia de recursos humanos com maior investimento em infraestrutura e tecnologia, focando no CAPEx e não no OPEx*.<br>
             - Aumento da confiança do cliente.<br>
             - Mitigação de riscos regulatórios.
         </div>
@@ -546,3 +546,4 @@ with tab4:
 
 st.markdown("<br>", unsafe_allow_html=True)
 st.write("Imersão CaixaVerso Especialista em IA 2026 - Caixa & FIAP.")
+
