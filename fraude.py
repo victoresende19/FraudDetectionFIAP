@@ -515,5 +515,7 @@ with tab4:
         </div>
         """, unsafe_allow_html=True)
 
+st.markdown("<br>", unsafe_allow_html=True)
 st.write("Imersão CaixaVerso Especialista em IA 2026 - Caixa & FIAP.")
+
 
