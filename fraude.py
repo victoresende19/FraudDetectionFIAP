@@ -1,10 +1,13 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+
 import plotly.express as px
 import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+
 from sklearn.linear_model import LogisticRegression
-from sklearn.naive_bayes import GaussianNB, MultinomialNB
+from sklearn.naive_bayes import GaussianNB
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
@@ -114,7 +117,7 @@ with tab2:
     c1, c2, c3, c4 = st.columns(4)
     for col, val, label in zip(
         [c1, c2, c3, c4],
-        [f"{len(df)}", f"{total_fraud}", f"{fraud_rate:.1f}%", f"U$ {avg_fraud_amount:.2f}"],
+        [f"{len(df):,.0f}".replace(",", "."), f"{total_fraud}", f"{fraud_rate:.1f}%", f"U$ {avg_fraud_amount:.2f}"],
         ["Total de Transações", "Transações Fraudulentas", "Taxa de Fraude", "Valor Médio (Fraude)"]
     ):
         col.markdown(f'<div class="metric-card"><h2>{val}</h2><p>{label}</p></div>', unsafe_allow_html=True)
@@ -189,8 +192,6 @@ with tab2:
 
     # Distribuição valor por classe
     st.markdown('<div class="section-title">Distribuição do Valor das Transações</div>', unsafe_allow_html=True)
-
-    from plotly.subplots import make_subplots
 
     fig = make_subplots(specs=[[{"secondary_y": True}]])
 
