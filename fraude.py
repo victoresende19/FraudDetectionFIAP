@@ -504,6 +504,7 @@ with tab4:
     risks = [
         ("⚙️", "Riscos Técnicos", "#e74c3c", [
             "Dataset sintético: padrões podem não refletir fraudes reais",
+            "Para o modelo Naive Bayes, verificar a normalidade das features",
             # "LabelEncoder introduz ordem artificial em variáveis nominais",
             "Ausência de validação temporal no split treino/teste",
             "Modelos lineares limitados para interações complexas",
