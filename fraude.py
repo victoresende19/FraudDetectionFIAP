@@ -117,7 +117,7 @@ with tab2:
     c1, c2, c3, c4 = st.columns(4)
     for col, val, label in zip(
         [c1, c2, c3, c4],
-        [f"{len(df):,.0f}".replace(",", "."), f"{total_fraud}", f"{fraud_rate:.1f}%", f"U$ {avg_fraud_amount:.2f}"],
+        [f"{len(df):,.0f}".replace(",", "."), f"{total_fraud:,.0f}".replace(",", "."), f"{fraud_rate:.1f}%", f"U$ {avg_fraud_amount:.2f}"],
         ["Total de Transações", "Transações Fraudulentas", "Taxa de Fraude", "Valor Médio (Fraude)"]
     ):
         col.markdown(f'<div class="metric-card"><h2>{val}</h2><p>{label}</p></div>', unsafe_allow_html=True)
