@@ -433,9 +433,7 @@ with tab4:
             <div style="color:#dce6f0; font-size:0.9rem; line-height:1.7">
                 Alta taxa de <strong style="color:#e74c3c">falsos negativos</strong> em transações de baixo valor, 
                 onde fraudes mimetizam comportamento legítimo. O Naive Bayes apresenta probabilidades comprimidas, 
-                dificultando separação em casos limítrofes. Ambos os modelos sofrem com 
-                <strong style="color:#e74c3c">LabelEncoder em variáveis nominais</strong>, 
-                que introduz ordenação artificial inexistente.
+                dificultando separação em casos limítrofes.
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -458,6 +456,19 @@ with tab4:
 
     st.markdown("<br>", unsafe_allow_html=True)
     st.markdown('<div class="section-title">💰 Potencial de Geração de Valor</div>', unsafe_allow_html=True)
+
+    st.markdown(f"""
+    <div style="background:#162840; border-radius:12px; padding:24px; margin-bottom:20px; border-left: 4px solid #f39c12">
+        <div style="color:#f39c12; font-weight:700; font-size:0.85rem; text-transform:uppercase; letter-spacing:.08em; margin-bottom:10px">Principais Pontos</div>
+        <div style="color:#dce6f0; font-size:0.9rem; line-height:1.8">
+            - Redução de perdas financeiras com fraudes.<br>
+            - Automação de detecção.<br>
+            - Economia de recursos humanos, com foco no CAPEx e não no OPEx*.<br>
+            - Aumento da confiança do cliente.<br>
+            - Mitigação de riscos regulatórios.
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
     st.markdown(f"""
     <div style="background:#162840; border-radius:12px; padding:24px; margin-bottom:20px; border-left: 4px solid #f39c12">
@@ -514,7 +525,7 @@ with tab4:
             "Discriminação por localização ou dispositivo (proxies socioeconômicos)",
             "Features como Location podem ser proxies de variáveis protegidas",
             "Desbalanceamento residual pode ignorar subgrupos minoritários",
-            "Threshold único ignora heterogeneidade comportamental dos clientes",
+            "Caso houvessem dados comportamentais, ajustar threshold único, pois ignora heterogeneidade comportamental dos clientes",
         ]),
         ("📋", "Riscos Regulatórios", "#2e6da4", [
             "LGPD exige base legal para uso de dados em decisões automatizadas",
@@ -535,6 +546,3 @@ with tab4:
 
 st.markdown("<br>", unsafe_allow_html=True)
 st.write("Imersão CaixaVerso Especialista em IA 2026 - Caixa & FIAP.")
-
-
-
