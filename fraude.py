@@ -181,12 +181,28 @@ with tab2:
                      title="Taxa de Fraude por Tipo de Transação",
                      color="Taxa de Fraude", color_continuous_scale="Reds")
         st.plotly_chart(fig, use_container_width=True)
+
+        fraud_by_auth = df.groupby("Card_Type")["Fraud_Label"].mean().reset_index()
+        fraud_by_auth.columns = ["Método", "Taxa de Fraude"]
+        fraud_by_auth = fraud_by_auth.sort_values("Taxa de Fraude", ascending=True)
+        fig = px.bar(fraud_by_auth, x="Taxa de Fraude", y="Método", orientation="h",
+                     title="Taxa de Fraude por Tipo de Cartão",
+                     color="Taxa de Fraude", color_continuous_scale="Blues")
+        st.plotly_chart(fig, use_container_width=True)
     with col2:
         fraud_by_auth = df.groupby("Authentication_Method")["Fraud_Label"].mean().reset_index()
         fraud_by_auth.columns = ["Método", "Taxa de Fraude"]
         fraud_by_auth = fraud_by_auth.sort_values("Taxa de Fraude", ascending=True)
         fig = px.bar(fraud_by_auth, x="Taxa de Fraude", y="Método", orientation="h",
                      title="Taxa de Fraude por Método de Autenticação",
+                     color="Taxa de Fraude", color_continuous_scale="Blues")
+        st.plotly_chart(fig, use_container_width=True)
+
+        fraud_by_auth = df.groupby("Device_Type")["Fraud_Label"].mean().reset_index()
+        fraud_by_auth.columns = ["Método", "Taxa de Fraude"]
+        fraud_by_auth = fraud_by_auth.sort_values("Taxa de Fraude", ascending=True)
+        fig = px.bar(fraud_by_auth, x="Taxa de Fraude", y="Método", orientation="h",
+                     title="Taxa de Fraude por Tipo de Dispositivo",
                      color="Taxa de Fraude", color_continuous_scale="Blues")
         st.plotly_chart(fig, use_container_width=True)
 
