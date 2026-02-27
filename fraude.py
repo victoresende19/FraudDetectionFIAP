@@ -529,7 +529,7 @@ with tab4:
         ]),
         ("📋", "Riscos Regulatórios", "#2e6da4", [
             "LGPD exige base legal para uso de dados em decisões automatizadas",
-            "Banco Central exige explicabilidade (Resolução BCB nº 85)",
+            "Banco Central exige explicabilidade",
             "Bloqueios automáticos podem gerar passivo no Procon",
             "Auditoria periódica obrigatória para ausência de discriminação algorítmica",
         ]),
@@ -546,4 +546,5 @@ with tab4:
 
 st.markdown("<br>", unsafe_allow_html=True)
 st.write("Imersão CaixaVerso Especialista em IA 2026 - Caixa & FIAP.")
+
 
