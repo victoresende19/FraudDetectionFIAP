@@ -182,11 +182,11 @@ with tab2:
                      color="Taxa de Fraude", color_continuous_scale="Reds")
         st.plotly_chart(fig, use_container_width=True)
 
-        fraud_by_auth = df.groupby("Card_Type")["Fraud_Label"].mean().reset_index()
-        fraud_by_auth.columns = ["Método", "Taxa de Fraude"]
+        fraud_by_auth = df.groupby("Merchant_Category")["Fraud_Label"].mean().reset_index()
+        fraud_by_auth.columns = ["Área da Transação", "Taxa de Fraude"]
         fraud_by_auth = fraud_by_auth.sort_values("Taxa de Fraude", ascending=True)
-        fig = px.bar(fraud_by_auth, x="Taxa de Fraude", y="Método", orientation="h",
-                     title="Taxa de Fraude por Tipo de Cartão",
+        fig = px.bar(fraud_by_auth, x="Taxa de Fraude", y="Área da Transação", orientation="h",
+                     title="Taxa de Fraude por Área da Transação",
                      color="Taxa de Fraude", color_continuous_scale="Blues")
         st.plotly_chart(fig, use_container_width=True)
     with col2:
@@ -535,5 +535,6 @@ with tab4:
 
 st.markdown("<br>", unsafe_allow_html=True)
 st.write("Imersão CaixaVerso Especialista em IA 2026 - Caixa & FIAP.")
+
 
 
