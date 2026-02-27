@@ -4,7 +4,7 @@ import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 from sklearn.linear_model import LogisticRegression
-from sklearn.naive_bayes import GaussianNB
+from sklearn.naive_bayes import GaussianNB, MultinomialNB
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
@@ -23,7 +23,7 @@ st.markdown("""
 }
 .metric-card h2 { font-size: 2.2rem; margin: 0; font-weight: 700; }
 .metric-card p { margin: 4px 0 0 0; font-size: 0.85rem; opacity: 0.85; }
-.section-title { font-size: 1.3rem; font-weight: 600; color: #1e3a5f; margin: 24px 0 12px 0; border-left: 4px solid #2e6da4; padding-left: 10px; }
+.section-title { font-size: 1.3rem; font-weight: 600; color: #00000; margin: 24px 0 12px 0; border-left: 4px solid #2e6da4; padding-left: 10px; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -36,8 +36,9 @@ def load_data():
     return df
 
 df = load_data()
-st.title("🔍 Detecção de Fraudes Bancárias com Machine Learning")
-tab1, tab2, tab3 = st.tabs(["📖 Sobre", "📊 Análise Exploratória", "🌟 Modelagem"])
+st.title("🔍 Detecção de Fraudes Bancárias - CAIXA & FIAP")
+st.write("Por Gisele Oliveira, Thaisa Guio e Victor Resende.")
+tab1, tab2, tab3, tab4 = st.tabs(["📖 Sobre", "📊 Análise Exploratória", "🌟 Modelagem", "💼 Conclusão Executiva"])
 
 # ── TAB SOBRE ─────────────────────────────────────────────────────────────────
 with tab1:
@@ -51,22 +52,28 @@ with tab1:
         quanto seus clientes. A detecção manual é inviável dado o volume massivo de transações - um grande banco pode
         processar dezenas de milhões de operações por dia.
 
-        ### Por que Modelagem Estatística?
+        ### Detecção automática com Machine Learning
         Modelos de Machine Learning conseguem aprender padrões complexos e não lineares a partir de dados históricos.
-        Eles avaliam simultaneamente dezenas de variáveis - valor, localização, dispositivo, horário, histórico do usuário -
-        para calcular em milissegundos a probabilidade de uma transação ser fraudulenta. Isso permite bloqueios automáticos
-        em tempo real, reduzindo perdas e melhorando a experiência do cliente legítimo.
+        Eles avaliam simultaneamente dezenas de variáveis para calcular em milissegundos a probabilidade de uma transação ser fraudulenta. 
+        Isso permite bloqueios automáticos em tempo real, reduzindo perdas e melhorando a experiência do cliente legítimo.
 
-        ### O GAP que este Projeto Endereça
-        Muitos sistemas antifraude ainda dependem de **regras fixas** (ex.: "bloquear transações acima de R$ 5.000 fora
+        #### A escolha do modelo - Classificação
+        Muitos sistemas antifraude ainda dependem de **regras fixas** (ex.: "bloquear transações acima de U$ 5.000 fora
         do país"), que são facilmente contornadas por fraudadores sofisticados e geram alta taxa de falsos positivos,
-        frustrando clientes. Este projeto demonstra como modelos probabilísticos adaptativos - Regressão Logística e
-        Naive Bayes - podem complementar ou substituir regras rígidas, oferecendo:
+        frustrando clientes. Este projeto demonstra como modelos probabilísticos de classificação podem complementar ou substituir regras rígidas, oferecendo:
 
         - **Maior precisão**: menos falsos positivos, menos clientes frustrados
         - **Adaptabilidade**: o modelo aprende novos padrões de fraude com retreinamento
         - **Interpretabilidade**: é possível entender quais variáveis mais influenciam a decisão
         - **Escalabilidade**: aplicável a qualquer volume de transações em tempo real
+
+        ##### Modelo utilizados 
+        Visando a utilização de métodos probabilísticos para a classificação de transações de Fraude com Machine Learning, foram utilizados os modelos:
+        - Regressão Logística
+        - Naive Bayes
+
+        Ambos modelos foram escolhidos visando a parcimônia, ou seja, atributos como simplicidade e interpretação.
+        Além disso, como demonstrado a seguir pelo dicionário de dados, o alvo para realizar o treinamento e comparação dos modelos se da pela variável ```Fraud_Label```.
 
         ### Sobre os Dados
         O dataset é provinente de um repositório Kaggle, que pode ser acessado [clicando aqui](https://www.kaggle.com/datasets/samayashar/fraud-detection-transactions-dataset?resource=download).
@@ -107,7 +114,7 @@ with tab2:
     c1, c2, c3, c4 = st.columns(4)
     for col, val, label in zip(
         [c1, c2, c3, c4],
-        [f"{len(df):,}", f"{total_fraud:,}", f"{fraud_rate:.1f}%", f"R$ {avg_fraud_amount:.2f}"],
+        [f"{len(df)}", f"{total_fraud}", f"{fraud_rate:.1f}%", f"U$ {avg_fraud_amount:.2f}"],
         ["Total de Transações", "Transações Fraudulentas", "Taxa de Fraude", "Valor Médio (Fraude)"]
     ):
         col.markdown(f'<div class="metric-card"><h2>{val}</h2><p>{label}</p></div>', unsafe_allow_html=True)
@@ -151,7 +158,14 @@ with tab2:
                      title="Transações por Mês", barmode="group",
                      labels={"Month": "Mês", "count": "Qtd"})
         st.plotly_chart(fig, use_container_width=True)
-    st.info("Fraudes são mais frequentes nas madrugadas (0h–5h), sugerindo que autenticações fora do horário comercial merecem atenção redobrada.")
+    # st.info("Fraudes são mais frequentes nas madrugadas (0h–5h), sugerindo que autenticações fora do horário comercial merecem atenção redobrada.")
+    st.info("""
+        Durante o horário comercial foi identificado que os picos de transações legítimas e fraudulentas coincidiram às 11h. 
+
+        Assim, é recomendada a utilização do modelo para triagem das transações, servindo como filtro para uma posterior análise humana, dada a quantidade de transações totais.
+        
+        Além disso, ao contrário do que é esperado, em horários não comerciais, como às 21h, foi observado o pico de transações legítimas e um vale para transações fraudulentas.
+        """)
 
     # Análise categórica
     st.markdown('<div class="section-title">Análise por Variáveis Categóricas</div>', unsafe_allow_html=True)
@@ -175,12 +189,38 @@ with tab2:
 
     # Distribuição valor por classe
     st.markdown('<div class="section-title">Distribuição do Valor das Transações</div>', unsafe_allow_html=True)
-    fig = px.histogram(df, x="Transaction_Amount", color=df["Fraud_Label"].map({0: "Legítima", 1: "Fraude"}),
-                       nbins=60, barmode="overlay", opacity=0.7,
-                       color_discrete_map={"Legítima": "#2e6da4", "Fraude": "#e74c3c"},
-                       title="Distribuição do Valor por Classe",
-                       labels={"color": "Classe", "Transaction_Amount": "Valor (R$)"})
+
+    from plotly.subplots import make_subplots
+
+    fig = make_subplots(specs=[[{"secondary_y": True}]])
+
+    bins = pd.cut(df["Transaction_Amount"], bins=60)
+    fraud_rate_by_bin = df.groupby(bins, observed=True).apply(
+        lambda x: x["Fraud_Label"].sum() / len(x) * 100
+    ).reset_index()
+    fraud_rate_by_bin.columns = ["bin", "fraud_rate"]
+    fraud_rate_by_bin["bin_mid"] = fraud_rate_by_bin["bin"].apply(lambda x: x.mid)
+
+    for label, color in [("Legítima", "#2e6da4"), ("Fraude", "#e74c3c")]:
+        subset = df[df["Fraud_Label"].map({0: "Legítima", 1: "Fraude"}) == label]
+        fig.add_trace(go.Histogram(x=subset["Transaction_Amount"], name=label, marker_color=color,
+                                opacity=0.7, nbinsx=60), secondary_y=False)
+
+    fig.add_trace(go.Scatter(x=fraud_rate_by_bin["bin_mid"], y=fraud_rate_by_bin["fraud_rate"],
+                            name="% Fraude por faixa", mode="lines",
+                            line=dict(color="#f39c12", width=2.5, dash="dot")), secondary_y=True)
+
+    fig.update_layout(barmode="overlay", title="Distribuição do Valor por Classe",
+                    legend=dict(orientation="h"), template="plotly_dark")
+    fig.update_xaxes(title_text="Valor (R$)")
+    fig.update_yaxes(title_text="Quantidade de Transações", secondary_y=False)
+    fig.update_yaxes(title_text="% de Fraude", secondary_y=True, ticksuffix="%", showgrid=False)
+
     st.plotly_chart(fig, use_container_width=True)
+
+    st.info("""
+    É possível identificar que há um número maior de transações com valores mais baixos. Além disso, há grande frequência de transações fraudulentas com valores baixos, ao contrário do que é esperado.
+    """)
 
     # Correlação
     st.markdown('<div class="section-title">Mapa de Correlação</div>', unsafe_allow_html=True)
@@ -192,7 +232,7 @@ with tab2:
     fig = px.imshow(corr, text_auto=".2f", color_continuous_scale="RdBu_r",
                     title="Matriz de Correlação", aspect="auto")
     st.plotly_chart(fig, use_container_width=True)
-    st.info("**Risk_Score** e **Failed_Transaction_Count_7d** apresentam as maiores correlações com Fraud_Label, confirmando sua relevância para modelagem.")
+    st.info("**Risk_Score** e **Failed_Transaction_Count_7d** apresentam as maiores correlações com **Fraud_Label**, confirmando sua relevância para modelagem.")
 
 # ── TAB MODELAGEM ──────────────────────────────────────────────────────────────
 with tab3:
@@ -265,7 +305,7 @@ with tab3:
         for col, val, label in zip([c1, c2, c3, c4],
                                 [f"{acc:.3f}", f"{prec:.3f}", f"{rec:.3f}", f"{f1:.3f}"],
                                 ["Acurácia", "Precisão", "Recall", "F1-Score"]):
-            col.markdown(f'<div class="metric-card"><h3>{val}</h3><p>{label}</p></div>', unsafe_allow_html=True)
+            col.markdown(f'<div class="metric-card"><h2>{val}</h2><p>{label}</p></div>', unsafe_allow_html=True)
 
         st.markdown("<br>", unsafe_allow_html=True)
         cm = confusion_matrix(y_test, y_pred)
@@ -342,5 +382,137 @@ with tab3:
         with c2:
             label2 = "🚨 FRAUDE" if pred_nb == 1 else "✅ LEGÍTIMA"
             bg2 = "#e74c3c" if pred_nb == 1 else "#27ae60"
-
             st.markdown(f'<div class="metric-card" style="background:{bg2}"><h2>{label2}</h2><h4>Naive Bayes (Probabilidade: {prob_nb:.1%})</h4></div>', unsafe_allow_html=True)
+
+with tab4:
+    st.title("💼 Conclusão Executiva")
+
+    avg_fraud_val = df[df["Fraud_Label"] == 1]["Transaction_Amount"].mean()
+    fraud_rate_val = df["Fraud_Label"].mean()
+    monthly_transactions = 1_000_000
+    monthly_frauds = monthly_transactions * fraud_rate_val
+    monthly_exposure = monthly_frauds * avg_fraud_val
+    recovery_80 = monthly_exposure * 0.80
+
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.markdown("""
+        <div style="background:#162840; border-radius:12px; padding:24px; border-top: 4px solid #27ae60; height:100%">
+            <div style="font-size:1.6rem; margin-bottom:8px">✅</div>
+            <div style="color:#7eb8e8; font-weight:700; font-size:1rem; margin-bottom:12px; text-transform:uppercase; letter-spacing:.05em">O modelo resolve o gap?</div>
+            <div style="color:#dce6f0; font-size:0.9rem; line-height:1.7">
+                Parcialmente sim. Com F1-Score acima de <strong style="color:#7eb8e8">0.80</strong> na Regressão Logística, 
+                os modelos detectam padrões sem depender de regras fixas. O gap de rigidez é endereçado, 
+                mas a resolução completa exige retreinamento contínuo com dados reais e monitoramento de drift, 
+                dado que fraudes evoluem rapidamente.
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+    with col2:
+        st.markdown("""
+        <div style="background:#162840; border-radius:12px; padding:24px; border-top: 4px solid #e74c3c; height:100%">
+            <div style="font-size:1.6rem; margin-bottom:8px">⚠️</div>
+            <div style="color:#7eb8e8; font-weight:700; font-size:1rem; margin-bottom:12px; text-transform:uppercase; letter-spacing:.05em">Onde ele falha?</div>
+            <div style="color:#dce6f0; font-size:0.9rem; line-height:1.7">
+                Alta taxa de <strong style="color:#e74c3c">falsos negativos</strong> em transações de baixo valor, 
+                onde fraudes mimetizam comportamento legítimo. O Naive Bayes apresenta probabilidades comprimidas, 
+                dificultando separação em casos limítrofes. Ambos os modelos sofrem com 
+                <strong style="color:#e74c3c">LabelEncoder em variáveis nominais</strong>, 
+                que introduz ordenação artificial inexistente.
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+    with col3:
+        st.markdown("""
+        <div style="background:#162840; border-radius:12px; padding:24px; border-top: 4px solid #2e6da4; height:100%">
+            <div style="font-size:1.6rem; margin-bottom:8px">🚀</div>
+            <div style="color:#7eb8e8; font-weight:700; font-size:1rem; margin-bottom:12px; text-transform:uppercase; letter-spacing:.05em">O que falta para produção?</div>
+            <div style="color:#dce6f0; font-size:0.9rem; line-height:1.7">
+                <span style="color:#7eb8e8">-</span> Pipeline em tempo real para acompanhamento<br>
+                <span style="color:#7eb8e8">-</span> Retreinamento automatizado contra data drift<br>
+                <span style="color:#7eb8e8">-</span> Explicabilidade com SHAP<br>
+                <span style="color:#7eb8e8">-</span> Monitoramento de indicadores, taxas e métricas<br>
+                <span style="color:#7eb8e8">-</span> Infraestrutura adequada na nuvem<br>
+                <span style="color:#7eb8e8">-</span> Mensageria para comunicação com o cliente<br>
+                <span style="color:#7eb8e8">-</span> Filas de revisão humana para casos limítrofes
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+    st.markdown('<div class="section-title">💰 Potencial de Geração de Valor</div>', unsafe_allow_html=True)
+
+    st.markdown(f"""
+    <div style="background:#162840; border-radius:12px; padding:24px; margin-bottom:20px; border-left: 4px solid #f39c12">
+        <div style="color:#f39c12; font-weight:700; font-size:0.85rem; text-transform:uppercase; letter-spacing:.08em; margin-bottom:10px">📐 Premissas do cálculo</div>
+        <div style="color:#dce6f0; font-size:0.9rem; line-height:1.8">
+            Base hipotética de <strong style="color:#7eb8e8">1.000.000 transações/mês</strong> &nbsp;·&nbsp;
+            Taxa de fraude real do dataset: <strong style="color:#7eb8e8">{fraud_rate_val:.1%}</strong> &nbsp;·&nbsp;
+            Valor médio de fraude real: <strong style="color:#7eb8e8">U$ {avg_fraud_val:.2f}</strong> &nbsp;·&nbsp;
+            Recall estimado do modelo: <strong style="color:#7eb8e8">80%</strong>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    c1, c2, c3, c4 = st.columns(4)
+    for col, val, label, color in zip(
+        [c1, c2, c3, c4],
+        [f"{monthly_frauds:,.0f}".replace(",", "."), f"U$ {avg_fraud_val:.2f}", f"U$ {monthly_exposure/1e6:.1f}M", f"U$ {recovery_80/1e6:.1f}M"],
+        ["Fraudes esperadas/mês", "Ticket médio de fraude", "Exposição mensal total", "Recuperação potencial (80%)"],
+        ["#2e6da4", "#e74c3c", "#c0392b", "#27ae60"]
+    ):
+        col.markdown(f"""
+        <div style="background:linear-gradient(135deg,{color}22,{color}44); border:1px solid {color}88;
+                    border-radius:12px; padding:20px; text-align:center">
+            <div style="font-size:1.8rem; font-weight:800; color:white; margin-bottom:4px">{val}</div>
+            <div style="font-size:0.78rem; color:#dce6f0; opacity:0.85">{label}</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    st.markdown(f"""
+    <div style="background:#162840; border-radius:12px; padding:20px; margin-top:16px; font-size:0.9rem; color:#dce6f0; line-height:1.8">
+        Com <strong style="color:#7eb8e8">{monthly_frauds:,.0f} fraudes esperadas por mês</strong> e ticket médio de 
+        <strong style="color:#7eb8e8">U$ {avg_fraud_val:.2f}</strong>, a exposição total chega a 
+        <strong style="color:#e74c3c">U$ {monthly_exposure/1e6:.1f}M/mês</strong>. 
+        Um modelo com Recall de 80% (próximo ao observado na Regressão Logística) permitiria recuperar 
+        <strong style="color:#27ae60">U$ {recovery_80/1e6:.1f}M mensais</strong>, além de reduzir custos operacionais 
+        de análise manual e fortalecer a posição regulatória do banco perante o Banco Central.
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+    st.markdown('<div class="section-title">Riscos e Limitações</div>', unsafe_allow_html=True)
+
+    c1, c2, c3 = st.columns(3)
+    risks = [
+        ("⚙️", "Riscos Técnicos", "#e74c3c", [
+            "Dataset sintético: padrões podem não refletir fraudes reais",
+            # "LabelEncoder introduz ordem artificial em variáveis nominais",
+            "Ausência de validação temporal no split treino/teste",
+            "Modelos lineares limitados para interações complexas",
+            "Sem tratamento explícito de outliers nos coeficientes",
+        ]),
+        ("⚖️", "Riscos de Viés", "#f39c12", [
+            "Discriminação por localização ou dispositivo (proxies socioeconômicos)",
+            "Features como Location podem ser proxies de variáveis protegidas",
+            "Desbalanceamento residual pode ignorar subgrupos minoritários",
+            "Threshold único ignora heterogeneidade comportamental dos clientes",
+        ]),
+        ("📋", "Riscos Regulatórios", "#2e6da4", [
+            "LGPD exige base legal para uso de dados em decisões automatizadas",
+            "Banco Central exige explicabilidade (Resolução BCB nº 85)",
+            "Bloqueios automáticos podem gerar passivo no Procon",
+            "Auditoria periódica obrigatória para ausência de discriminação algorítmica",
+        ]),
+    ]
+    for col, (icon, title, color, items) in zip([c1, c2, c3], risks):
+        items_html = "".join([f'<div style="display:flex;gap:8px;margin-bottom:8px"><span style="color:{color};margin-top:2px">▸</span><span>{item}</span></div>' for item in items])
+        col.markdown(f"""
+        <div style="background:#162840; border-radius:12px; padding:24px; border-top:4px solid {color}; height:100%">
+            <div style="font-size:1.5rem; margin-bottom:8px">{icon}</div>
+            <div style="color:{color}; font-weight:700; font-size:0.95rem; margin-bottom:16px; text-transform:uppercase; letter-spacing:.05em">{title}</div>
+            <div style="color:#dce6f0; font-size:0.85rem; line-height:1.6">{items_html}</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+st.write("Imersão CaixaVerso Especialista em IA 2026 - Caixa & FIAP.")
