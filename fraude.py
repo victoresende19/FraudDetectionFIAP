@@ -446,9 +446,9 @@ with tab4:
     <div style="background:#162840; border-radius:12px; padding:24px; margin-bottom:20px; border-left: 4px solid #f39c12">
         <div style="color:#f39c12; font-weight:700; font-size:0.85rem; text-transform:uppercase; letter-spacing:.08em; margin-bottom:10px">📐 Premissas do cálculo</div>
         <div style="color:#dce6f0; font-size:0.9rem; line-height:1.8">
-            Base hipotética de <strong style="color:#7eb8e8">1.000.000 transações/mês</strong> &nbsp;·&nbsp;
-            Taxa de fraude real do dataset: <strong style="color:#7eb8e8">{fraud_rate_val:.1%}</strong> &nbsp;·&nbsp;
-            Valor médio de fraude real: <strong style="color:#7eb8e8">U$ {avg_fraud_val:.2f}</strong> &nbsp;·&nbsp;
+            Base hipotética de <strong style="color:#7eb8e8">1.000.000 transações/mês</strong> &nbsp;-&nbsp;
+            Taxa de fraude real do dataset: <strong style="color:#7eb8e8">{fraud_rate_val:.1%}</strong> &nbsp;-&nbsp;
+            Valor médio de fraude real: <strong style="color:#7eb8e8">U$ {avg_fraud_val:.2f}</strong> &nbsp;-&nbsp;
             Recall estimado do modelo: <strong style="color:#7eb8e8">80%</strong>
         </div>
     </div>
@@ -516,3 +516,4 @@ with tab4:
         """, unsafe_allow_html=True)
 
 st.write("Imersão CaixaVerso Especialista em IA 2026 - Caixa & FIAP.")
+
