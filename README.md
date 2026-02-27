@@ -2,7 +2,7 @@
 
 Atividade Imersão CaixaVerso - FIAP. Acesse: https://deteccaofraudefiap.streamlit.app/.
 
-Membro:
+Membros:
 - Gisele Oliveira
 - Thaisa Guio
 - Victor Resende.
